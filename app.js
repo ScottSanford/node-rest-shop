@@ -1,5 +1,8 @@
+const bodyParser = require('body-parser')
 const express = require('express')
+const mongoose = require('mongoose')
 const morgan = require('morgan')
+const process = require('./nodemon.json')
 
 // Spin up express
 const app = express()
@@ -8,9 +11,36 @@ const app = express()
 const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
 
+// Connect to MongoDB
+mongoose.connect(`mongodb://${process.env.USERNAME}:${process.env.PASSWORD}@ds123534.mlab.com:23534/node-rest-shop`, {
+    useNewUrlParser: true
+}).then(() => {
+    console.log('Connected to database successfully')
+}).catch(() => {
+    console.log('Could not connect to database.')
+})
+
 // MIDDLEWARE
 // Log HTTP requests to Terminal
 app.use(morgan('dev'))
+// Body Parser middleware
+app.use(bodyParser.urlencoded({extended: false}))
+// Extract JSON data and make it readable
+app.use(bodyParser.json())
+
+// Handle CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    )
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Contol-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET')
+        return res.status(200).json({})
+    }
+    next()
+})
 
 // Routes that should handle requests
 app.use('/products', productRoutes)
