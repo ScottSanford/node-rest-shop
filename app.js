@@ -23,6 +23,8 @@ mongoose.connect(`mongodb://${process.env.USERNAME}:${process.env.PASSWORD}@ds12
 // MIDDLEWARE
 // Log HTTP requests to Terminal
 app.use(morgan('dev'))
+// Make images publically available
+app.use('/uploads', express.static('uploads'))
 // Body Parser middleware
 app.use(bodyParser.urlencoded({extended: false}))
 // Extract JSON data and make it readable

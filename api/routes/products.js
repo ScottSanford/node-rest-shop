@@ -1,5 +1,16 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+    destination(req, file, callback) {
+        // null for no error and then path where you want to store the image
+        callback(null, './uploads/')
+    },
+    filename(req, file, callback) {
+        callback(null, new Date().toISOString() + file.originalname)
+    }
+})
 
 // Products Schema
 const Product = require('../models/product')
@@ -7,10 +18,28 @@ const Product = require('../models/product')
 // express router
 const router = express.Router()
 
+// file filter
+const fileFilter = (req, file, callback) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        callback(null, true)
+    } else {
+        // reject a file
+        callback(null, false)
+    }
+}
+// init multer
+const upload = multer({
+    storage,
+    fileFilter,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    }
+})
+
 // GET list of products
 router.get('/', (req, res) => {
     Product.find()
-        .select('name price _id')
+        .select('name price _id productImage')
         .exec()
         .then(products => {
             const response = {
@@ -21,6 +50,7 @@ router.get('/', (req, res) => {
                     return {
                         name: prod.name,
                         price: prod.price,
+                        productImage: prod.productImage,
                         _id: prod._id,
                         request: {
                             type: 'GET',
@@ -38,11 +68,13 @@ router.get('/', (req, res) => {
 })
 
 // POST a product to the list
-router.post('/', (req, res) => {
+router.post('/', upload.single('productImage'), (req, res) => {
+    console.log(req.file)
     const createdProduct = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        productImage: req.file.path
     })
     // Save product to database
     createdProduct.save()
@@ -73,7 +105,7 @@ router.post('/', (req, res) => {
 router.get('/:productId', (req, res) => {
     const id = req.params.productId
     Product.findById(id)
-        .select('name price _id')
+        .select('name price _id productImage')
         .exec()
         .then(doc => {
             if (doc) {
