@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
 
 // POST a product to the list
 router.post('/', (req, res) => {
-    res.status(200).json({
-        status: 200,
+    res.status(201).json({
+        status: 201,
         message: 'Handling POST requests for /products'
     })
 })
