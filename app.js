@@ -10,6 +10,7 @@ const app = express()
 // import API routes
 const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
+const userRoutes = require('./api/routes/users')
 
 // Connect to MongoDB
 mongoose.connect(`mongodb://${process.env.USERNAME}:${process.env.PASSWORD}@ds123534.mlab.com:23534/node-rest-shop`, {
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
 // Routes that should handle requests
 app.use('/products', productRoutes)
 app.use('/orders', orderRoutes)
+app.use('/user', userRoutes)
 
 // Handle Errors
 app.use((req, res, next) => {
