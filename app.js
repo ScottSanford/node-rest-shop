@@ -2,7 +2,9 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const mongoose = require('mongoose')
 const morgan = require('morgan')
-const process = require('./nodemon.json')
+
+// Configure environment variables
+require('dotenv').config()
 
 // Spin up express
 const app = express()
@@ -13,7 +15,7 @@ const orderRoutes = require('./api/routes/orders')
 const userRoutes = require('./api/routes/users')
 
 // Connect to MongoDB
-mongoose.connect(`mongodb://${process.env.USERNAME}:${process.env.PASSWORD}@ds123534.mlab.com:23534/node-rest-shop`, {
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds123534.mlab.com:23534/node-rest-shop`, {
     useNewUrlParser: true
 }).then(() => {
     console.log('Connected to database successfully')
