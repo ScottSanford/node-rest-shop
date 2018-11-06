@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const User = require('../models/user')
-const process = require('../../nodemon.json')
 
 exports.signupUser = (req, res) => {
     // Check if email exists in database

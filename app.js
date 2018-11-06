@@ -47,10 +47,13 @@ app.use((req, res, next) => {
     next()
 })
 
+// API Version
+const version = 'v1'
+
 // Routes that should handle requests
-app.use('/products', productRoutes)
-app.use('/orders', orderRoutes)
-app.use('/user', userRoutes)
+app.use(`/${version}/products`, productRoutes)
+app.use(`/${version}/orders`, orderRoutes)
+app.use(`/${version}/user`, userRoutes)
 
 // Handle Errors
 app.use((req, res, next) => {

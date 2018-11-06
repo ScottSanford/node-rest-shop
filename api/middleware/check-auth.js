@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const process = require('../../nodemon.json')
 
 module.exports = (req, res, next) => {
     try {
