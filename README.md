@@ -157,7 +157,7 @@ Success Response:
 
 Description: Gets details on one product.
 
-Example: `http://localhost:3000/v1/products/`
+Example: `http://localhost:3000/v1/products/5be2422bad257543b0b85b3c`
 
 Success Response:
 
@@ -254,5 +254,143 @@ Success Response:
 	            "price": "Required Number"
 	        },
 	        "description": "Add a product to the database."
+	    }
+	}
+
+### GET /orders
+
+Description: Get list of all orders.
+
+Example: `http://localhost:3000/v1/orders`
+
+Headers: `Authorization: Bearer <jsonWebToken>`
+
+Success Response: 
+
+    {
+	    "status": "ok",
+	    "code": 200,
+	    "totalCount": 2,
+	    "orders": [
+	        {
+	            "_id": "5ba92f89ac99190c6074244b",
+	            "product": {
+	                "_id": "5ba86819a627c6f1703f2518",
+	                "name": "Mugsy - Fultons"
+	            },
+	            "quantity": 1,
+	            "request": {
+	                "type": "GET",
+	                "url": "http://localhost:3000/orders/5ba92f89ac99190c6074244b",
+	                "description": "Return information on the specific order."
+	            }
+	        },
+	        {
+	            "_id": "5ba932bfdf64c70db86854b1",
+	            "product": {
+	                "_id": "5ba86819a627c6f1703f2518",
+	                "name": "Mugsy - Fultons"
+	            },
+	            "quantity": 3,
+	            "request": {
+	                "type": "GET",
+	                "url": "http://localhost:3000/orders/5ba932bfdf64c70db86854b1",
+	                "description": "Return information on the specific order."
+	            }
+	        }
+	    ]
+	}
+
+### GET /orders/{orderId}
+
+Description: Gets specific order details.
+
+Example: `http://localhost:3000/v1/orders/5ba86819a627c6f1703f2518`
+
+Headers: `Authorization: Bearer <jsonWebToken>`
+
+Success Response: 
+
+    {
+	    "status": "ok",
+	    "code": 200,
+	    "order": {
+	        "quantity": 1,
+	        "_id": "5ba92f89ac99190c6074244b",
+	        "product": {
+	            "_id": "5ba86819a627c6f1703f2518",
+	            "name": "Mugsy - Fultons",
+	            "price": 98
+	        }
+	    },
+	    "request": {
+	        "type": "GET",
+	        "url": "http://localhost:3000/orders",
+	        "description": "Get list of all orders."
+	    }
+	}
+
+Error Response (Can't find order):
+
+    {
+	    "status": 404,
+	    "message": "Order not found"
+	}
+
+### POST /orders
+
+Description: Add an order to the list
+
+Example: `http://localhost:3000/v1/orders`
+
+Headers: `Authorization: Bearer <jsonWebToken>`
+
+Payload: Object that includes `productId` and `quantity`
+
+    {
+		"productId": "5ba86819a627c6f1703f2518",
+		"quantity: "3"
+	}
+
+Success Response: 
+
+    {
+	    "status": "ok",
+	    "code": 201,
+	    "message": "Order stored",
+	    "createdOrder": {
+	        "_id": "5be24cdcad257543b0b85b40",
+	        "product": "5ba86819a627c6f1703f2518",
+	        "quantity": 3
+	    },
+	    "request": {
+	        "type": "GET",
+	        "url": "http://localhost:3000/orders5be24cdcad257543b0b85b40",
+	        "description": "Return information on specific order"
+	    }
+	}
+
+### DELETE /orders/{orderId}
+
+Description: Delete an order from the database.
+
+Example: `http://localhost:3000/v1/order/5ba86819a627c6f1703f2518`
+
+Headers: `Authorization: Bearer <jsonWebToken>`
+
+Success Response: 
+
+    {
+	    "status": "ok",
+	    "code": 200,
+	    "message": "Order deleted",
+	    "request": {
+	        "type": "POST",
+	        "url": "http://localhost:3000/orders",
+	        "body": {
+	            "quantity": "Number",
+	            "product": "Required String"
+	        },
+	        "description": "Add an order to the database."
 	    }
 	}
