@@ -1,11 +1,6 @@
 **Node Rest API Side Project**
 ----
-### API Resources
-
-#### Users
-  - [POST /user/signup](#post-user-signup)
-  - [POST  /user/login](#post-user-login)
-  - [DELETE /[userId]](#delete-userid)
+## API Resources
 
 ### POST /user/signup
 
