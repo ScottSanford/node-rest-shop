@@ -1,6 +1,6 @@
 **Node Rest API Side Project**
 ----
-## API Resources
+### API Resources
 
 ### POST /user/signup
 
