@@ -15,16 +15,6 @@ The current version of the API is v1. Please reference the `v1` in each endpoint
 
 ### API Resources
 
-  
-
-#### Users
-
--  [POST /user/signup](#post-user-signup)
-
--  [POST /user/login](#post-user-login)
-
--  [DELETE /[userId]](#delete-userid)
-
 ### POST /user/signup
 
 Description: Adds a user to the database.
