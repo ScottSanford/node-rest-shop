@@ -10,7 +10,7 @@ exports.getOrders = (req, res) => {
         .exec()
         .then(orders => {
             res.status(200).json({
-                status: 'ok',
+                status: 'OK',
                 code: 200,
                 totalCount: orders.length,
                 orders: orders.map(order => {
@@ -36,7 +36,7 @@ exports.createOrder = (req, res) => {
             // If _id is null and the same length as mongoose _id value
             if (!product) {
                 res.status(404).json({
-                    status: 'bad',
+                    status: 'NOT FOUND',
                     code: 404,
                     message: 'Product not found'
                 })
@@ -52,7 +52,7 @@ exports.createOrder = (req, res) => {
         })
         .then(result => {
             res.status(201).json({
-                status: 'ok',
+                status: 'CREATED',
                 code: 201,
                 message: 'Order stored',
                 createdOrder: {
@@ -69,7 +69,7 @@ exports.createOrder = (req, res) => {
         })
         .catch(error => {
             res.status(500).json({
-                status: 'bad',
+                status: 'INTERNAL SERVER ERROR',
                 code: 500,
                 error
             })
@@ -85,7 +85,7 @@ exports.getOrder = (req, res) => {
         .then(order => {
             if (order) {
                 res.status(200).json({
-                    status: 'ok',
+                    status: 'OK',
                     code: 200,
                     order,
                     request: {
@@ -96,7 +96,8 @@ exports.getOrder = (req, res) => {
                 })
             } else {
                 res.status(404).json({
-                    status: 404,
+                    status: 'NOT FOUND',
+                    code: 404,
                     message: 'Order not found'
                 })
             }
@@ -114,7 +115,7 @@ exports.deleteOrder = (req, res) => {
         .exec()
         .then(result => {
             res.status(200).json({
-                status: 'ok',
+                status: 'OK',
                 code: 200,
                 message: 'Order deleted',
                 request: {

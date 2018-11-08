@@ -15,6 +15,16 @@ The current version of the API is v1. Please reference the `v1` in each endpoint
 
 ### API Resources
 
+  
+
+#### Users
+
+-  [POST /user/signup](#post-user-signup)
+
+-  [POST /user/login](#post-user-login)
+
+-  [DELETE /[userId]](#delete-userid)
+
 ### POST /user/signup
 
 Description: Adds a user to the database.
@@ -406,3 +416,16 @@ Success Response:
 			"description": "Add an order to the database."
 		}
 	}
+
+## Status Codes
+
+Node Rest Shop API returns the following status codes in its API:
+
+| Status Code | Description |
+| :--- | :--- |
+| 200 | `OK` |
+| 201 | `CREATED` |
+| 400 | `BAD REQUEST` |
+| 404 | `NOT FOUND` |
+| 400 | `CONFLICT` |
+| 500 | `INTERNAL SERVER ERROR` |

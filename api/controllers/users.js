@@ -13,7 +13,7 @@ exports.signupUser = (req, res) => {
             // if user already exists, don't save user
             if (user.length >= 1) {
                 return res.status(409).json({
-                    status: 'conflict',
+                    status: 'CONFLICT',
                     code: 409,
                     message: 'User already exists'
                 })
@@ -22,7 +22,7 @@ exports.signupUser = (req, res) => {
                 bcrypt.hash(req.body.password, 10, (error, hash) => {
                     if (error) {
                         return res.status(500).json({
-                            status: 'bad',
+                            status: 'INTERNAL SERVER ERROR',
                             code: 500,
                             error
                         })
@@ -37,13 +37,13 @@ exports.signupUser = (req, res) => {
                         user.save()
                             .then(result => {
                                 res.status(201).json({
-                                    status: 'ok',
+                                    status: 'CREATED',
                                     code: 201,
                                     message: 'User created'
                                 })
                             })
                             .catch(error => res.status(500).json({
-                                status: 'bad',
+                                status: 'INTERNAL SERVER ERROR',
                                 code: 500,
                                 error
                             }))
@@ -61,7 +61,7 @@ exports.loginUser = (req, res) => {
         .then(user => {
             if (user.length < 1) {
                 return res.status(401).json({
-                    status: 'bad',
+                    status: 'NOT FOUND',
                     code: 404,
                     message: 'Auth failed'
                 })
@@ -69,7 +69,7 @@ exports.loginUser = (req, res) => {
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
                 if (err) {
                     return res.status(401).json({
-                        status: 'bad',
+                        status: 'NOT FOUND',
                         code: 404,
                         message: 'Auth failed'
                     })
@@ -85,7 +85,7 @@ exports.loginUser = (req, res) => {
                     const token = jwt.sign(payload, process.env.JWT_KEY, jtwOptions)
 
                     return res.status(200).json({
-                        status: 'ok',
+                        status: 'OK',
                         code: 200,
                         message: 'Auth successful',
                         token
@@ -93,14 +93,14 @@ exports.loginUser = (req, res) => {
                 }
 
                 return res.status(401).json({
-                    status: 'bad',
+                    status: 'NOT FOUND',
                     code: 404,
                     message: 'Auth failed'
                 })
             })
         })
         .catch(error => res.status(500).json({
-            status: 'bad',
+            status: 'INTERNAL SERVER ERROR',
             code: 500,
             error
         }))
@@ -114,7 +114,7 @@ exports.deleteUser = (req, res) => {
         .exec()
         .then(result => {
             res.status(200).json({
-                status: 'ok',
+                status: 'OK',
                 code: 200,
                 message: 'User deleted',
                 request: {

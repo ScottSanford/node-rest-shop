@@ -7,7 +7,7 @@ exports.getProducts = (req, res) => {
         .exec()
         .then(products => {
             const response = {
-                status: 'ok',
+                status: 'OK',
                 code: 200,
                 totalCount: products.length,
                 products: products.map(prod => {
@@ -44,7 +44,7 @@ exports.createProduct = (req, res) => {
     createdProduct.save()
         .then(result => {
             res.status(201).json({
-                status: 'ok',
+                status: 'CREATED',
                 code: 201,
                 message: 'Created product successfully',
                 createdProduct: {
@@ -75,7 +75,7 @@ exports.getProduct = (req, res) => {
         .then(doc => {
             if (doc) {
                 res.status(200).json({
-                    status: 'ok',
+                    status: 'OK',
                     code: 200,
                     product: doc,
                     request: {
@@ -86,7 +86,8 @@ exports.getProduct = (req, res) => {
                 })
             } else {
                 res.status(404).json({
-                    status: 404,
+                    status: 'NOT FOUND',
+                    code: 404,
                     message: 'No valid entry found for provided ID'
                 })
             }
@@ -105,7 +106,7 @@ exports.updateProduct = (req, res) => {
         .exec()
         .then(result => {
             res.status(200).json({
-                status: 'ok',
+                status: 'OK',
                 code: 200,
                 message: 'Product updated',
                 request: {
@@ -126,7 +127,7 @@ exports.deleteProduct = (req, res) => {
         .exec()
         .then(result => {
             res.status(200).json({
-                status: 'ok',
+                status: 'OK',
                 code: 200,
                 message: 'Product deleted',
                 request: {
